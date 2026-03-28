@@ -4,6 +4,7 @@ export type TableStatus = 'available' | 'occupied' | 'pending'
 export type OrderType = 'mesa' | 'para_llevar'
 export type OrderStatus = 'pending' | 'preparing' | 'ready' | 'delivered'
 export type PaymentMethod = 'cash' | 'card' | 'qr'
+export type ExpenseCategory = 'ingredientes' | 'servicios' | 'personal' | 'equipamiento' | 'limpieza' | 'otros'
 
 export interface User {
     id: string
@@ -26,7 +27,6 @@ export interface Table {
     id: string
     number: number
     status: TableStatus
-    disabled: boolean
     created_at: string
 }
 
@@ -56,38 +56,71 @@ export interface Payment {
     paid_at: string
 }
 
+export interface Expense {
+    id: string
+    description: string
+    amount: number
+    category: ExpenseCategory
+    date: string
+    note: string | null
+    created_at: string
+}
+
 export type Database = {
     public: {
         Tables: {
             users: {
                 Row: User
                 Insert: Omit<User, 'created_at'>
-                Update: Partial<User>
+                Update: Partial<Omit<User, 'id'>>
             }
             menu_items: {
                 Row: MenuItem
                 Insert: Omit<MenuItem, 'id' | 'created_at'>
-                Update: Partial<MenuItem>
+                Update: Partial<Omit<MenuItem, 'id' | 'created_at'>>
             }
             tables: {
                 Row: Table
                 Insert: Omit<Table, 'id' | 'created_at'>
-                Update: Partial<Table>
+                Update: Partial<Omit<Table, 'id' | 'created_at'>>
             }
             orders: {
                 Row: Order
                 Insert: Omit<Order, 'id' | 'created_at'>
-                Update: Partial<Order>
+                Update: Partial<Omit<Order, 'id' | 'created_at'>>
             }
             order_items: {
                 Row: OrderItem
                 Insert: Omit<OrderItem, 'id'>
-                Update: Partial<OrderItem>
+                Update: Partial<Omit<OrderItem, 'id'>>
             }
             payments: {
                 Row: Payment
                 Insert: Omit<Payment, 'id'>
-                Update: Partial<Payment>
+                Update: Partial<Omit<Payment, 'id'>>
+            }
+            expenses: {
+                Row: Expense
+                Insert: Omit<Expense, 'id' | 'created_at'>
+                Update: Partial<Omit<Expense, 'id' | 'created_at'>>
+            }
+        }
+        Functions: {
+            get_sales_report: {
+                Args: {
+                    period_type: string
+                    date_from: string
+                    date_to: string
+                }
+                Returns: {
+                    period_start: string
+                    total_sales: number
+                    order_count: number
+                }[]
+            }
+            my_role: {
+                Args: Record<string, never>
+                Returns: UserRole
             }
         }
     }
