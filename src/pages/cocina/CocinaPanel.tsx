@@ -26,8 +26,8 @@ export function CocinaPanel() {
     const [orders, setOrders] = useState<CocinaOrder[]>([])
     const [loading, setLoading] = useState(true)
     const [updating, setUpdating] = useState<string | null>(null)
-    const [ticker, setTicker] = useState(0)
-    const audioRef = useRef<HTMLAudioElement | null>(null)
+    //const [ticker, setTicker] = useState(0)
+    //const audioRef = useRef<HTMLAudioElement | null>(null)
     const prevCountRef = useRef(0)
 
     useEffect(() => {
@@ -41,11 +41,11 @@ export function CocinaPanel() {
             .subscribe()
 
         // Actualizar tiempos cada 30 segundos
-        const timer = setInterval(() => setTicker(t => t + 1), 30000)
+        //const timer = setInterval(() => setTicker(t => t + 1), 30000)
 
         return () => {
             supabase.removeChannel(channel)
-            clearInterval(timer)
+            //clearInterval(timer)
         }
     }, [])
 

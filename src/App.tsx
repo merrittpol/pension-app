@@ -17,12 +17,7 @@ import { CocinaPanel } from './pages/cocina/CocinaPanel'
 import { FinanzasPage } from './pages/admin/FinanzasPage'
 
 
-function MeseroDashboard() {
-  return <div className="p-8"><h1 className="text-2xl font-semibold">Panel Mesero</h1></div>
-}
-function CocinaDashboard() {
-  return <div className="p-8"><h1 className="text-2xl font-semibold">Panel Cocina</h1></div>
-}
+
 function Unauthorized() {
   return (
     <div className="min-h-screen flex items-center justify-center">
@@ -30,14 +25,7 @@ function Unauthorized() {
     </div>
   )
 }
-function ComingSoon({ title }: { title: string }) {
-  return (
-    <div className="p-8">
-      <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
-      <p className="text-gray-400 mt-1 text-sm">Módulo en construcción...</p>
-    </div>
-  )
-}
+
 
 export default function App() {
   return (

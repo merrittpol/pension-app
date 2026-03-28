@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import { useAuth } from '../../contexts/AuthContext'
-import type { MenuItem, Order, OrderStatus } from '../../types/database'
+import type { MenuItem, Order } from '../../types/database'
 
 const STATUS_CONFIG = {
     pending: { label: 'Pendiente', color: 'bg-gray-100 text-gray-600' },
@@ -192,8 +192,8 @@ export function MeseroPedidos() {
                                             key={item.id}
                                             onClick={() => addToCart(item)}
                                             className={`p-3 rounded-xl border-2 text-left transition-all ${inCart
-                                                    ? 'border-blue-400 bg-blue-50'
-                                                    : 'border-gray-200 hover:border-blue-300 hover:bg-blue-50'
+                                                ? 'border-blue-400 bg-blue-50'
+                                                : 'border-gray-200 hover:border-blue-300 hover:bg-blue-50'
                                                 }`}
                                         >
                                             <p className="text-sm font-medium text-gray-900 truncate">{item.name}</p>
@@ -219,8 +219,8 @@ export function MeseroPedidos() {
                                             key={item.id}
                                             onClick={() => addToCart(item)}
                                             className={`p-3 rounded-xl border-2 text-left transition-all ${inCart
-                                                    ? 'border-purple-400 bg-purple-50'
-                                                    : 'border-gray-200 hover:border-purple-300 hover:bg-purple-50'
+                                                ? 'border-purple-400 bg-purple-50'
+                                                : 'border-gray-200 hover:border-purple-300 hover:bg-purple-50'
                                                 }`}
                                         >
                                             <p className="text-sm font-medium text-gray-900 truncate">{item.name}</p>
