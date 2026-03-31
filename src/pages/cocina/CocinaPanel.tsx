@@ -26,8 +26,8 @@ export function CocinaPanel() {
     const [orders, setOrders] = useState<CocinaOrder[]>([])
     const [loading, setLoading] = useState(true)
     const [updating, setUpdating] = useState<string | null>(null)
-    //const [ticker, setTicker] = useState(0)
-    //const audioRef = useRef<HTMLAudioElement | null>(null)
+    const [soundEnabled, setSoundEnabled] = useState(false)
+    const soundEnabledRef = useRef(false)
     const prevCountRef = useRef(0)
 
     useEffect(() => {
@@ -40,14 +40,22 @@ export function CocinaPanel() {
             })
             .subscribe()
 
-        // Actualizar tiempos cada 30 segundos
-        //const timer = setInterval(() => setTicker(t => t + 1), 30000)
+        // Polling para refrescar los tiempos y forzar actualización cada 15 segs
+        const timer = setInterval(() => {
+            fetchOrders(true)
+        }, 15000)
 
         return () => {
             supabase.removeChannel(channel)
-            //clearInterval(timer)
+            clearInterval(timer)
         }
     }, [])
+
+    function enableSound() {
+        setSoundEnabled(true)
+        soundEnabledRef.current = true
+        playBeep(true) // Forzar que suene de prueba para desbloquear audio
+    }
 
     async function fetchOrders(playSound = false) {
         const { data: ordersData } = await supabase
@@ -96,9 +104,11 @@ export function CocinaPanel() {
         setLoading(false)
     }
 
-    function playBeep() {
+    function playBeep(force = false) {
+        if (!force && !soundEnabledRef.current) return
         try {
-            const ctx = new AudioContext()
+            const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext
+            const ctx = new AudioContextClass()
             const osc = ctx.createOscillator()
             const gain = ctx.createGain()
             osc.connect(gain)
@@ -147,6 +157,23 @@ export function CocinaPanel() {
 
     return (
         <div>
+            <div className="flex items-center justify-between mb-6 bg-gray-900 p-4 rounded-xl border border-gray-800">
+                <div>
+                    <h2 className="text-xl font-bold text-white">Panel de Cocina</h2>
+                    <p className="text-sm text-gray-400">Las órdenes se refrescarán automáticamente</p>
+                </div>
+                <button 
+                    onClick={enableSound}
+                    className={`px-4 py-2 rounded-lg text-sm font-bold transition-all border shadow-sm flex items-center gap-2 ${
+                        soundEnabled 
+                            ? 'bg-gray-800 text-green-400 border-gray-700 pointer-events-none' 
+                            : 'bg-amber-500 text-white border-amber-600 hover:bg-amber-400 hover:scale-105 shadow-amber-500/20 shadow-lg animate-pulse'
+                    }`}
+                >
+                    {soundEnabled ? '🔊 Sonido Activado' : '🔇 Toca para Activar Alerta'}
+                </button>
+            </div>
+
             {/* Stats rápidas */}
             <div className="grid grid-cols-3 gap-4 mb-6">
                 {COLUMNS.map(status => {
