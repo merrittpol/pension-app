@@ -200,15 +200,15 @@ export function MenuPage() {
                     ))}
                 </div>
             ) : (
-                <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">
+                <div className="bg-white rounded-xl border border-gray-100 overflow-x-auto">
                     <table className="w-full">
                         <thead>
                             <tr className="border-b border-gray-100">
-                                <th className="text-left text-xs text-gray-500 font-medium px-5 py-3">Nombre</th>
-                                <th className="text-left text-xs text-gray-500 font-medium px-5 py-3">Tipo</th>
-                                <th className="text-left text-xs text-gray-500 font-medium px-5 py-3">Precio</th>
-                                <th className="text-left text-xs text-gray-500 font-medium px-5 py-3">Estado</th>
-                                <th className="px-5 py-3" />
+                                <th className="text-left text-xs text-gray-500 font-medium px-4 py-3 min-w-[120px]">Nombre</th>
+                                <th className="text-left text-xs text-gray-500 font-medium px-4 py-3 whitespace-nowrap">Tipo</th>
+                                <th className="text-left text-xs text-gray-500 font-medium px-4 py-3 whitespace-nowrap">Precio</th>
+                                <th className="text-left text-xs text-gray-500 font-medium px-4 py-3 whitespace-nowrap">Estado</th>
+                                <th className="px-4 py-3" />
                             </tr>
                         </thead>
                         <tbody>
@@ -217,15 +217,15 @@ export function MenuPage() {
                                     {editingId === item.id ? (
                                         /* Modo edición inline */
                                         <>
-                                            <td className="px-5 py-2">
+                                            <td className="px-4 py-2 min-w-[120px]">
                                                 <input
                                                     type="text"
                                                     value={editForm.name}
                                                     onChange={e => setEditForm(f => ({ ...f, name: e.target.value }))}
-                                                    className="w-full px-2 py-1.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                    className="w-full min-w-[100px] px-2 py-1.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                                                 />
                                             </td>
-                                            <td className="px-5 py-2">
+                                            <td className="px-4 py-2 whitespace-nowrap">
                                                 <select
                                                     value={editForm.type}
                                                     onChange={e => setEditForm(f => ({ ...f, type: e.target.value as ItemType }))}
@@ -235,28 +235,28 @@ export function MenuPage() {
                                                     <option value="daily">Diario</option>
                                                 </select>
                                             </td>
-                                            <td className="px-5 py-2">
+                                            <td className="px-4 py-2 whitespace-nowrap">
                                                 <input
                                                     type="number"
                                                     value={editForm.price}
                                                     onChange={e => setEditForm(f => ({ ...f, price: e.target.value }))}
-                                                    className="w-24 px-2 py-1.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                    className="w-20 px-2 py-1.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                                                     min="0"
                                                     step="0.5"
                                                 />
                                             </td>
-                                            <td className="px-5 py-2">
+                                            <td className="px-4 py-2 whitespace-nowrap">
                                                 <button
                                                     onClick={() => toggleAvailable(item)}
-                                                    className={`text-xs px-2.5 py-1 rounded-full transition-colors ${item.available
+                                                    className={`text-xs px-2.5 py-1 rounded-full whitespace-nowrap transition-colors ${item.available
                                                             ? 'bg-green-100 text-green-700 hover:bg-green-200'
                                                             : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
                                                         }`}
                                                 >
-                                                    {item.available ? 'Disponible' : 'No disponible'}
+                                                    {item.available ? 'Disponible' : 'No disp.'}
                                                 </button>
                                             </td>
-                                            <td className="px-5 py-2 text-right">
+                                            <td className="px-4 py-2 text-right whitespace-nowrap">
                                                 <div className="flex items-center justify-end gap-1.5">
                                                     <button
                                                         onClick={handleUpdate}
@@ -277,11 +277,11 @@ export function MenuPage() {
                                     ) : (
                                         /* Modo visualización normal */
                                         <>
-                                            <td className="px-5 py-3.5">
-                                                <p className="text-sm font-medium text-gray-900">{item.name}</p>
-                                                {item.date && <p className="text-xs text-gray-400">{item.date}</p>}
+                                            <td className="px-4 py-3.5 min-w-[120px]">
+                                                <p className="text-sm font-medium text-gray-900 leading-tight">{item.name}</p>
+                                                {item.date && <p className="text-xs text-gray-400 mt-1">{item.date}</p>}
                                             </td>
-                                            <td className="px-5 py-3.5">
+                                            <td className="px-4 py-3.5 whitespace-nowrap">
                                                 <span className={`text-xs px-2 py-0.5 rounded-full ${item.type === 'daily'
                                                         ? 'bg-purple-100 text-purple-700'
                                                         : 'bg-gray-100 text-gray-600'
@@ -289,21 +289,21 @@ export function MenuPage() {
                                                     {item.type === 'daily' ? 'Diario' : 'Fijo'}
                                                 </span>
                                             </td>
-                                            <td className="px-5 py-3.5 text-sm font-medium text-gray-900">
+                                            <td className="px-4 py-3.5 text-sm font-medium text-gray-900 whitespace-nowrap">
                                                 Bs. {item.price.toFixed(2)}
                                             </td>
-                                            <td className="px-5 py-3.5">
+                                            <td className="px-4 py-3.5 whitespace-nowrap">
                                                 <button
                                                     onClick={() => toggleAvailable(item)}
-                                                    className={`text-xs px-2.5 py-1 rounded-full transition-colors ${item.available
+                                                    className={`text-xs px-2.5 py-1 rounded-full whitespace-nowrap transition-colors ${item.available
                                                             ? 'bg-green-100 text-green-700 hover:bg-green-200'
                                                             : 'bg-gray-100 text-gray-500 hover:bg-gray-200'
                                                         }`}
                                                 >
-                                                    {item.available ? 'Disponible' : 'No disponible'}
+                                                    {item.available ? 'Disponible' : 'No disp.'}
                                                 </button>
                                             </td>
-                                            <td className="px-5 py-3.5 text-right">
+                                            <td className="px-4 py-3.5 text-right whitespace-nowrap">
                                                 <div className="flex items-center justify-end gap-2">
                                                     <button
                                                         onClick={() => startEdit(item)}
